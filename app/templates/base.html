@@ -1,0 +1,87 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>DreamsLandReality</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/css/bootstrap.min.css" rel="stylesheet">
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css" rel="stylesheet">
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/chart.js/3.9.1/chart.min.js"></script>
+
+  <!-- fond awsome  -->
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.2/css/all.min.css"
+    integrity="sha512-sVvMkQzIQn4jJnpwvPObI9YUzvJ9nbW2n6TYCzV8RkxKNwzSxWyKU/rVmbM+zyZdqGLQ+PbkbT3KNGL0wjIRYg=="
+    crossorigin="anonymous" referrerpolicy="no-referrer" />
+
+  <!-- chart design -->
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+
+  <!-- google font  -->
+    <link
+        href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@500;700&family=Poppins:wght@300;400;500&display=swap"
+        rel="stylesheet">
+
+  <style>
+    body {
+            font-family: 'Poppins', sans-serif;
+        }
+  </style>
+</head>
+
+<body>
+  <nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+    <div class="container-fluid">
+      <a class="navbar-brand fw-bold" href="{% url 'property_list' %}">
+         DreamsLandReality
+      </a>
+      <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav">
+        <span class="navbar-toggler-icon"></span>
+      </button>
+
+      <div class="collapse navbar-collapse" id="navbarNav">
+        <ul class="navbar-nav me-auto">
+          {% if request.session.username %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'dashboard' %}"><i class="bi bi-grid"></i> dashboard</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'property_list' %}"><i class="bi bi-card-list"></i> Properties</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'property_add' %}"><i class="bi bi-plus-circle"></i> Add Property</a>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href=""><i class="bi bi-person"></i>My Account</a>
+          </li>
+
+          {% endif %}
+        </ul>
+        <ul class="navbar-nav">
+          {% if request.session.username %}
+          <li class="nav-item">
+            <span class="navbar-text text-light me-3">
+              <i class="bi bi-person-circle"></i> {{ request.session.username }}
+            </span>
+          </li>
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'agent_logout' %}"><i class="bi bi-box-arrow-right"></i> Logout</a>
+          </li>
+          {% else %}
+          <li class="nav-item">
+            <a class="nav-link" href="{% url 'agent_login' %}"><i class="bi bi-box-arrow-in-right"></i> Login</a>
+          </li>
+          {% endif %}
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap/5.3.0/js/bootstrap.bundle.min.js"></script>
+
+  {%block content%}
+
+  {%endblock%}
+
+</body>
+
+</html>

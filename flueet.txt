@@ -1,0 +1,146 @@
+import 'dart:convert';
+import 'package:flutter_riverpod/flutter_riverpod.dart';
+import 'package:shared_preferences/shared_preferences.dart';
+import 'package:http/http.dart' as http;
+
+class AgentProperty {
+  final String id;
+  final String location;
+  final String? remarks;
+  final String verified;
+  final String name;
+  final String type;
+  final String subtype;
+  final int bhk;
+  final String sqft;
+  final int price;
+  final String plotArea;
+  final String unit;
+  final int listedOn;
+  final String status;
+  String? agent;
+  final String pricingOptions;
+  final String propertyDescription;
+  final List<String> images;
+  final DateTime createdAt;
+  final DateTime updatedAt;
+  final String ownerName;
+  final String phoneNumber;
+  final String whatsappNumber;
+  final String propertyId;
+
+  AgentProperty({
+    required this.id,
+    required this.location,
+    required this.name,
+    required this.type,
+    required this.subtype,
+    required this.bhk,
+    required this.sqft,
+    required this.price,
+    required this.plotArea,
+    required this.unit,
+    required this.listedOn,
+    required this.status,
+    required this.verified,
+    this.agent,
+    this.remarks,
+    required this.pricingOptions,
+    required this.propertyDescription,
+    required this.images,
+    required this.createdAt,
+    required this.updatedAt,
+    required this.ownerName,
+    required this.phoneNumber,
+    required this.whatsappNumber,
+    required this.propertyId,
+  });
+
+  factory AgentProperty.fromJson(Map<String, dynamic> json) {
+    return AgentProperty(
+      id: json['_id']?.toString() ?? '',
+      location: json['location'] ?? '',
+      remarks: json['remarks'] ?? '',
+      verified: json['verified'] ?? '',
+      name: json['name'] ?? '',
+      type: json['type'] ?? '',
+      subtype: json['subtype'] ?? '',
+      bhk: json['bhk'] ?? 0,
+      sqft: json['sqft'] ?? '',
+      price: json['price'] ?? 0,
+      plotArea: json['plotArea'] ?? '',
+      unit: json['unit'] ?? '',
+      listedOn: json['listedOn'] ?? 0,
+      status: json['status'] ?? '',
+      agent: json['agent'] ?? '',
+      pricingOptions: json['Pricingoptions'] ?? '',
+      propertyDescription: json['propertyDescription'] ?? '',
+      images: List<String>.from(json['images'] ?? []),
+      createdAt: DateTime.tryParse(json['createdAt'] ?? '') ?? DateTime.now(),
+      updatedAt: DateTime.tryParse(json['updatedAt'] ?? '') ?? DateTime.now(),
+      ownerName: json['ownerName'] ?? '',
+      phoneNumber: json['phoneNumber'] ?? '',
+      whatsappNumber: json['whatsappNumber'] ?? '',
+      propertyId: json['propertyId'] ?? '',
+    );
+  }
+
+  @override
+  String toString() {
+    return 'AgentProperty(id: $id, name: $name, location: $location, price: $price, images: $images)';
+  }
+}
+
+
+
+final agentIdProvider = FutureProvider<String>((ref) async {
+  final prefs = await SharedPreferences.getInstance();
+  final agentId = prefs.getString('username');
+  
+  print('Fetching Agent ID from SharedPreferences...');
+  
+  if (agentId == null || agentId.isEmpty) {
+    print('⚠ Agent ID not found or is empty in SharedPreferences.');
+    throw Exception('⚠ Agent ID not found');
+  }
+
+  print('✅ Fetched Agent ID: $agentId');
+  return agentId;
+});
+
+class PropertyRepository {
+  final String baseUrl = 'https://api-fxz7qcfy4q-uc.a.run.app';
+
+  Future<List<AgentProperty>> fetchProperties(String agentId) async {
+    final url = Uri.parse('$baseUrl/$agentId/properties');
+
+    print('🌐 Fetching properties for Agent ID: $agentId');
+
+    final response = await http.get(url);
+
+   
+
+    if (response.statusCode == 200) {
+      final List<dynamic> jsonList = json.decode(response.body);
+
+      return jsonList.map((json) => AgentProperty.fromJson(json)).toList();
+    } else {
+      print('❌ Failed to load properties. Status Code: ${response.statusCode}');
+      throw Exception('❌ Failed to load properties');
+    }
+  }
+}
+
+final propertyRepositoryProvider = Provider<PropertyRepository>((ref) {
+  return PropertyRepository();
+});
+
+final agentPropertiesProvider =
+    FutureProvider<List<AgentProperty>>((ref) async {
+  
+  final agentId = await ref.watch(agentIdProvider.future);
+  final repository = ref.watch(propertyRepositoryProvider);
+
+  print('📦 Fetching properties for agentId: $agentId');
+  return await repository.fetchProperties(agentId);
+});

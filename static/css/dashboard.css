@@ -1,0 +1,58 @@
+/* General Styling */
+.head-text {
+  font-size: 2rem;
+  font-weight: bold;
+  color: #333;
+}
+
+/* Chart layout wrapper */
+.chart-wrapper {
+  display: flex;
+  flex-direction: column;
+  gap: 2rem;
+  padding: 1rem;
+}
+
+/* Individual chart container */
+.chart-container {
+  background: #fff;
+  border-radius: 16px;
+  padding: 1.5rem;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.1);
+  height: 400px;
+  width: 100%;
+}
+
+.chart-title {
+  font-size: 1.25rem;
+  margin-bottom: 1rem;
+  text-align: center;
+}
+
+/* Responsive layout for larger screens */
+@media (min-width: 768px) {
+  .chart-wrapper {
+    flex-direction: row;
+    justify-content: space-between;
+  }
+
+  .chart-container {
+    flex: 1 1 48%;
+  }
+}
+
+/* Small devices (extra safety) */
+@media (max-width: 480px) {
+  .chart-container {
+    height: 350px;
+    padding: 1rem;
+  }
+
+  .chart-title {
+    font-size: 1rem;
+  }
+
+  .head-text {
+    font-size: 1.5rem;
+  }
+}
