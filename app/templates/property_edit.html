@@ -1,0 +1,133 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block content %}
+<style>
+    .property-form {
+        max-width: 600px;
+        margin: 0 auto;
+        background: #fff;
+        border-radius: 12px;
+        padding: 2rem 2.5rem;
+        box-shadow: 0 2px 12px rgba(0, 0, 0, 0.07);
+    }
+
+    .form-row {
+        margin-bottom: 1.2rem;
+        display: flex;
+        flex-direction: column;
+    }
+
+    .form-row label {
+        font-weight: 500;
+        margin-bottom: 0.4rem;
+        color: #4a4e69;
+    }
+
+    .form-row input,
+    .form-row textarea {
+        padding: 0.5rem 0.7rem;
+        border: 1px solid #c9c9c9;
+        border-radius: 6px;
+        font-size: 1rem;
+    }
+
+    .form-row textarea {
+        min-height: 80px;
+        resize: vertical;
+    }
+
+    .btn {
+        padding: 0.5rem 1.2rem;
+        border: none;
+        border-radius: 6px;
+        font-size: 1rem;
+        cursor: pointer;
+        margin-right: 0.7rem;
+    }
+
+    .btn-primary {
+        background: #3654e2;
+        color: #fff;
+    }
+
+    .btn-secondary {
+        background: #e2e2e2;
+        color: #222;
+        text-decoration: none;
+    }
+</style>
+
+
+<link rel="stylesheet" href="{% static 'css/dashboard.css' %}">
+<div class="dashboard-container">
+    <h1 class="dashboard-title">Edit Property</h1>
+    <form method="post" class="property-form">
+        {% csrf_token %}
+        <div class="form-row">
+            <label>Location</label>
+            <input type="text" name="location" value="{{ property.location }}" required>
+        </div>
+        <div class="form-row">
+            <label>Name</label>
+            <input type="text" name="name" value="{{ property.name }}" required>
+        </div>
+        <div class="form-row">
+            <label>Type</label>
+            <input type="text" name="type" value="{{ property.type }}">
+        </div>
+        <div class="form-row">
+            <label>Subtype</label>
+            <input type="text" name="subtype" value="{{ property.subtype }}">
+        </div>
+        <div class="form-row">
+            <label>BHK</label>
+            <input type="number" name="bhk" value="{{ property.bhk }}">
+        </div>
+        <div class="form-row">
+            <label>Sqft</label>
+            <input type="text" name="sqft" value="{{ property.sqft }}">
+        </div>
+        <div class="form-row">
+            <label>Price</label>
+            <input type="number" name="price" value="{{ property.price }}">
+        </div>
+        <div class="form-row">
+            <label>Plot Area</label>
+            <input type="text" name="plotArea" value="{{ property.plotArea }}">
+        </div>
+        <div class="form-row">
+            <label>Unit</label>
+            <input type="text" name="unit" value="{{ property.unit }}">
+        </div>
+        <div class="form-row">
+            <label>Status</label>
+            <input type="text" name="status" value="{{ property.status }}">
+        </div>
+        <div class="form-row">
+            <label>Pricing Options</label>
+            <input type="text" name="Pricingoptions" value="{{ property.Pricingoptions }}">
+        </div>
+        <div class="form-row">
+            <label>Description</label>
+            <textarea name="propertyDescription">{{ property.propertyDescription }}</textarea>
+        </div>
+        <div class="form-row">
+            <label>Owner Name</label>
+            <input type="text" name="ownerName" value="{{ property.ownerName }}">
+        </div>
+        <div class="form-row">
+            <label>Phone Number</label>
+            <input type="text" name="phoneNumber" value="{{ property.phoneNumber }}">
+        </div>
+        <div class="form-row">
+            <label>WhatsApp Number</label>
+            <input type="text" name="whatsappNumber" value="{{ property.whatsappNumber }}">
+        </div>
+        <div class="form-row">
+            <button type="submit" class="btn btn-primary">Save Changes</button>
+            <a href="{% url 'property_list' %}" class="btn btn-secondary">Cancel</a>
+        </div>
+    </form>
+</div>
+{% endblock %}

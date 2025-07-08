@@ -5,7 +5,7 @@
 
 .overlay-box {
     position: absolute;
-    background-color: rgb(0,0,0,0.4);
+    background-color: rgb(0,0,0,0.3);
     top: 0;
     left: 0;
     right: 0;
@@ -36,3 +36,8 @@
 .overlay-bottom a {
     pointer-events: auto; /* allow clicking the button */
 }
+
+
+
+
+

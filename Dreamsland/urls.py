@@ -9,9 +9,7 @@ urlpatterns = [
 
     path('dashboard/',views.dashboard, name='dashboard'),
     path('properties/', views.property_list, name='property_list'),
-    path('properties/add/', views.property_add, name='property_add'),
-    path('properties/edit/<str:property_id>/', views.property_edit, name='property_edit'),
-    path('properties/delete/<str:property_id>/', views.property_delete, name='property_delete'),
+  
 ]
 
 if settings.DEBUG:
